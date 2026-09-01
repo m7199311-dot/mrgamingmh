@@ -34,6 +34,97 @@
             box-shadow: 0 0 15px rgba(0, 229, 255, 0.2);
             border: 2px solid #7600bc;
             transition: all 0.5s ease;
+            position: relative;
+        }
+
+        /* সিক্রেট অ্যাডমিন বাটন (ডান পাশের একদম সাইডে, ব্রাইটনেস কম) */
+        .secret-admin-btn {
+            position: fixed;
+            right: 2px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 25px;
+            height: 70px;
+            background: rgba(0, 229, 255, 0.15);
+            border: 1px solid rgba(0, 229, 255, 0.3);
+            border-right: none;
+            border-radius: 6px 0 0 6px;
+            cursor: pointer;
+            z-index: 9999;
+            opacity: 0.25;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #00e5ff;
+            font-size: 12px;
+        }
+
+        .secret-admin-btn:hover {
+            opacity: 1;
+            width: 35px;
+            background: rgba(0, 229, 255, 0.5);
+            box-shadow: 0 0 10px #00e5ff;
+        }
+
+        /* অ্যাডমিন মডাল প্যানেল */
+        .admin-modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            z-index: 10000;
+            justify-content: center;
+            align-items: center;
+            padding: 15px;
+        }
+
+        .admin-content {
+            background: #0d0d1a;
+            border: 2px solid #00e5ff;
+            border-radius: 10px;
+            padding: 20px;
+            width: 100%;
+            max-width: 500px;
+            box-shadow: 0 0 20px rgba(0, 229, 255, 0.5);
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .admin-content h3 {
+            color: #00e5ff;
+            margin-bottom: 12px;
+            font-size: 16px;
+            text-align: center;
+        }
+
+        .admin-group {
+            margin-bottom: 12px;
+        }
+
+        .admin-group label {
+            font-size: 12px;
+            color: #ff0055;
+            display: block;
+            margin-bottom: 4px;
+            font-weight: bold;
+        }
+
+        .admin-group textarea, .admin-group input {
+            width: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            border: 1px solid #7600bc;
+            color: #fff;
+            padding: 8px;
+            border-radius: 6px;
+            font-size: 13px;
+            outline: none;
+        }
+
+        .admin-btns {
+            display: flex;
+            gap: 8px;
+            margin-top: 15px;
         }
 
         .header-container {
@@ -45,7 +136,6 @@
             gap: 10px;
         }
 
-        /* ছবির জায়গায় নতুন টেক্সট লোগো স্টাইল */
         .text-logo-badge {
             display: inline-flex;
             align-items: center;
@@ -380,7 +470,6 @@
             white-space: nowrap;
         }
 
-        /* সোশ্যাল মিডিয়া ফুটার বাটন ডিজাইন */
         .social-footer {
             margin-top: 20px;
             padding-top: 15px;
@@ -437,9 +526,51 @@
 </head>
 <body>
 
+<!-- সিক্রেট অ্যাডমিন বাটন (ডান পাশের একদম সাইডে লুকানো) -->
+<div class="secret-admin-btn" onclick="openAdminPanel()" title="Admin">
+    <i class="fa-solid fa-gear"></i>
+</div>
+
+<!-- অ্যাডমিন প্যানেল মডাল -->
+<div class="admin-modal" id="adminModal">
+    <div class="admin-content">
+        <h3>🔒 সিক্রেট অ্যাডমিন প্যানেল</h3>
+        
+        <div class="admin-group">
+            <label>হেডার/থাম্বনেইল টাইটেল নাম পরিবর্তন করুন:</label>
+            <input type="text" id="newTitleInput" value="MR GAMING FREE FIRE COLOR CODE BY YOU">
+        </div>
+
+        <div class="admin-group">
+            <label>সেকশন লেবেল ১ (কালার সিলেকশন টেক্সট):</label>
+            <input type="text" id="label1Input" value="১. প্রধান ৮টি কালার সিলেক্ট করুন:">
+        </div>
+
+        <div class="admin-group">
+            <label>সেকশন লেবেল ২ (পিকার টেক্সট):</label>
+            <input type="text" id="label2Input" value="২. কাস্টম কালার (RGB / পিকার):">
+        </div>
+
+        <div class="admin-group">
+            <label>সেকশন লেবেল ৩ (ইনপুট টেক্সট):</label>
+            <input type="text" id="label3Input" value="৩. টেক্সট টাইপ করুন:">
+        </div>
+
+        <div class="admin-group">
+            <label>নতুন ডায়লগ/বায়ো যোগ করুন (প্রতি লাইনে একটি):</label>
+            <textarea id="newBioInput" rows="3" placeholder="যেমন: [FF0000]🔥 নতুন ডায়লগ 👑"></textarea>
+        </div>
+
+        <div class="admin-btns">
+            <button class="btn-action btn-copy" onclick="saveAdminChanges()">সেভ করুন</button>
+            <button class="btn-action btn-reset" onclick="closeAdminPanel()">বন্ধ করুন</button>
+        </div>
+    </div>
+</div>
+
 <div class="card" id="mainCard">
     <div class="header-container">
-        <div class="text-logo-badge">
+        <div class="text-logo-badge" id="mainHeaderLogo">
             MR GAMING FREE FIRE COLOR CODE BY YOU
         </div>
         
@@ -462,10 +593,11 @@
         </div>
     </div>
 
+    <!-- জেনারেটর সেকশন -->
     <div class="grid-container" id="generatorSection">
         <div class="left-panel">
-            <span class="section-label">১. প্রধান ৮টি কালার সিলেক্ট করুন:</span>
-            <div class="color-palette">
+            <span class="section-label" id="lbl1">১. প্রধান ৮টি কালার সিলেক্ট করুন:</span>
+            <div class="color-palette" id="colorPaletteContainer">
                 <div class="color-box" style="background: #FF0000;" onclick="setColorHex('#FF0000')"></div>
                 <div class="color-box" style="background: #00FF00;" onclick="setColorHex('#00FF00')"></div>
                 <div class="color-box" style="background: #0000FF;" onclick="setColorHex('#0000FF')"></div>
@@ -476,7 +608,7 @@
                 <div class="color-box" style="background: #FFFFFF;" onclick="setColorHex('#FFFFFF')"></div>
             </div>
 
-            <span class="section-label">২. কাস্টম কালার (RGB / পিকার):</span>
+            <span class="section-label" id="lbl2">২. কাস্টম কালার (RGB / পিকার):</span>
             <div class="picker-panel">
                 <div class="picker-row">
                     <div class="color-preview-large" id="largePreview"></div>
@@ -491,7 +623,7 @@
         </div>
 
         <div class="right-panel">
-            <span class="section-label">৩. টেক্সট টাইপ করুন:</span>
+            <span class="section-label" id="lbl3">৩. টেক্সট টাইপ করুন:</span>
             <div class="input-group">
                 <div class="neon-box" style="flex: 1;"><input type="text" id="userInput" placeholder="যেমন: Musa Khan"></div>
                 <button class="btn-add" onclick="addText()">যুক্ত করুন</button>
@@ -510,15 +642,17 @@
         </div>
     </div>
 
+    <!-- স্যাড/বাংলা বায়ো সেকশন -->
     <div id="readyBiosSection">
         <div class="tab-buttons">
-            <button class="tab-btn active" id="btnBanglaTab">বাংলা ডায়লগ (১০০টি)</button>
+            <button class="tab-btn active" id="btnBanglaTab">বাংলা ডায়লগ ও কাস্টম লিস্ট</button>
             <button class="tab-btn" id="btnEnglishTab">ইংরেজি বায়ো (FF Code)</button>
         </div>
 
         <div class="bio-list" id="bioListContainer"></div>
     </div>
 
+    <!-- ফুটার সোশ্যাল মিডিয়া বাটনসমূহ -->
     <div class="social-footer">
         <a href="https://youtube.com/@musa0000-n7v?si=9Db3uUcKWO-m7MaN" target="_blank" class="social-btn btn-yt">
             <i class="fa-brands fa-youtube"></i> YouTube Channel
@@ -535,7 +669,8 @@
     let generatedCode = '';
     let currentTab = 'bangla';
 
-    const banglaSadDialogues = [
+    // ডিফল্ট বা সেভ করা টেক্সটগুলো লোড করার সিস্টেম
+    let banglaSadDialogues = JSON.parse(localStorage.getItem('custom_bios')) || [
         "[FF0000]🥀 অবহেলা শিখিয়ে দিলে 💔",
         "[FF0055]💔 একা চলতেই ভালো লাগে 🖤",
         "[00FFFF]⚡ শূন্য থেকে শুরু ভাই 😈",
@@ -544,93 +679,35 @@
         "[FFA500]🔥 আগুন হতে শিখো 💣",
         "[800080]🖤 নীরবতাই আমার রূপ ♠️",
         "[FF0000]☠️ কোনো মাফ নেই রে 😈",
-        "[00FFFF]❄️ বরফের মতো ঠান্ডা ❄️",
-        "[FF0055]🥀 ভুল মানুষ বেছেছিলাম 💔",
-        "[FFFF00]⚡ গেম তো সবে শুরু ভাই 🎮",
-        "[00FF00]🐍 সাপের চেয়ে বিষাক্ত 🐍",
-        "[800080]👑 কিং সব সময়ই কিং 👑",
-        "[FFA500]🦁 সিংহের মতো রাজত্ব 🦁",
-        "[FF0000]💣 এক শটে খতম সব 💣",
-        "[00FFFF]🌊 একা থাকার আনন্দ 🌊",
-        "[FF0055]💔 বুক ভরা কষ্ট আমার 💔",
-        "[FFFF00]🔥 কথা কম কাজ বেশি 🔥",
-        "[00FF00]🎯 হেডশট এর ওস্তাদ 🎯",
-        "[800080]🖤 বিষাদময় এক জীবন 🖤",
-        "[FFA500]⚡ ঝড়ের বেগে আসবো ⚡",
-        "[FF0000]👑 নিজের পথ নিজে বানাই 👑",
-        "[00FFFF]💎 নামটাই যথেষ্ট ভাই 💎",
-        "[FF0055]🥀 হারিয়ে গেছি আমি 🥀",
-        "[FFFF00]⚠️ সামনে আসিস না ভাই ⚠️",
-        "[00FF00]🎮 গেমারদের সেরা আমি 🎮",
-        "[800080]♠️ ডার্ক নাইট আমার নাম ♠️",
-        "[FFA500]🔥 আগুন লাগাতে আসছি 🔥",
-        "[FF0000]☠️ রক্ত গরম সব সময় ☠️",
-        "[00FFFF]❄️ শান্ত মনের আগুন ❄️",
-        "[FF0055]💔 মন ভেঙেছে কবেই 💔",
-        "[FFFF00]⚡ রাশের মাস্টার আমি ⚡",
-        "[00FF00]🐍 বিষাক্ত চোখের আলো 🐍",
-        "[800080]👑 একক ছায়ায় থাকি 👑",
-        "[FFA500]🦁 বনের রাজা সিংহই 🦁",
-        "[FF0000]💣 একাই গুঁড়িয়ে দেবো 💣",
-        "[00FFFF]🌊 জীবনটা বড় অদ্ভুত 🌊",
-        "[FF0055]🥀 কেউ কারো নয়রে ভাই 🥀",
-        "[FFFF00]🔥 সময়ের খেলা দেখবি 🔥",
-        "[00FF00]🎯 সোলো ভার্সাস স্কোয়াড 🎯",
-        "[800080]🖤 অন্ধকারই আমার ঘর 🖤",
-        "[FFA500]⚡ বাজপাখির মতো নজর ⚡",
-        "[FF0000]👑 আমিই শেষ কথা ভাই 👑",
-        "[00FFFF]💎 হীরার চেয়ে দামি 💎",
-        "[FF0055]💔 বিশ্বাস ভেঙে গেছে 💔",
-        "[FFFF00]⚠️ সোজা ফিনিশ দিবো ⚠️",
-        "[00FF00]🎮 প্রো গেমার আইডি 🎮",
-        "[800080]♠️ ছায়ার দেশে বাস ♠️",
-        "[FFA500]🔥 অ্যাটিটিউড সব সময় 🔥",
-        "[FF0000]☠️ মরণ কামড় দিবো ☠️",
-        "[00FFFF]❄️ ঠান্ডা মাথায় খেলা ❄️",
-        "[FF0055]💔 অভিনয় ভালো পারি না 💔",
-        "[FFFF00]⚡ দ্রুত গতির কিং ⚡",
-        "[00FF00]🐍 নাছোড়বান্দা প্লেয়ার 🐍",
-        "[800080]👑 আমি আমার বসের বস্ 👑",
-        "[FFA500]🦁 গর্জন শুনবি ভাই 🦁",
-        "[FF0000]💣 বোমার মতো ফুটবো 💣",
-        "[00FFFF]🌊 জীবন এক নদীর মতো 🌊",
-        "[FF0055]🥀 কদর কেউ বোঝে না 🥀",
-        "[FFFF00]🔥 রূপের বড়াই করিস না 🔥",
-        "[00FF00]🎯 লক্ষ্য একটাই জয় 🎯",
-        "[800080]🖤 একাকী বীর আমি 🖤",
-        "[FFA500]⚡ ঝড়ের আগে নীরবতা ⚡",
-        "[FF0000]👑 সম্রাট হয়ে বাঁচবো 👑",
-        "[00FFFF]💎 নিজেকে চিনে নাও 💎",
-        "[FF0055]💔 মায়ায় জড়াবো না 💔",
-        "[FFFF00]⚠️ চোখ কান খোলা রাখ ⚠️",
-        "[00FF00]🎮 মাস্টার মাইন্ড গেমার 🎮",
-        "[800080]♠️ রহস্যময় একজন ♠️",
-        "[FFA500]🔥 আগুনের ফুলকি 🔥",
-        "[FF0000]☠️ একাই যথেষ্ট আমি ☠️",
-        "[00FFFF]❄️ নীরবতার শক্তি ❄️",
-        "[FF0055]💔 হৃদয় শূন্য হয়ে গেছে 💔",
-        "[FFFF00]⚡ দ্রুততার সাথে জয় ⚡",
-        "[00FF00]🐍 বিষধর এক প্লেয়ার 🐍",
-        "[800080]👑 সেরা হতে আসছি 👑",
-        "[FFA500]🦁 আমার নিয়মই শেষ 🦁",
-        "[FF0000]💣 ম্যাচ ফিনিশার আমি 💣",
-        "[00FFFF]👑 আসল রাজা আমি 👑"
+        "[00FFFF]❄️ বরফের মতো ঠান্ডা ❄️"
     ];
+
+    let customTitleText = localStorage.getItem('custom_title') || "MR GAMING FREE FIRE COLOR CODE BY YOU";
+    let customLbl1 = localStorage.getItem('custom_lbl1') || "১. প্রধান ৮টি কালার সিলেক্ট করুন:";
+    let customLbl2 = localStorage.getItem('custom_lbl2') || "২. কাস্টম কালার (RGB / পিকার):";
+    let customLbl3 = localStorage.getItem('custom_lbl3') || "৩. টেক্সট টাইপ করুন:";
 
     const englishBios = [
         "[FF0000]👑 [FFFF00]KING [00FF00]OF [00FFFF]FF",
         "[FF0055]💔 [FFFFFF]BROKEN [000000]HEART",
         "[00FFFF]⚡ [FF0000]ONE [FFFF00]TAP [00FF00]GOD",
-        "[FF0000]☠️ [000000]NO [FFFFFF]MERCY",
-        "[FFA500]🔥 [FF0000]ATTITUDE [FFFF00]BOY",
-        "[800080]🖤 [FF0055]SAD [FFFFFF]LIFE",
-        "[00FF00]🎯 [FF0000]ONLY [FFFF00]HEADSHOT",
-        "[00FFFF]❄️ [FFFFFF]SILENT [000000]KILLER",
-        "[FF0000]😈 [FFFF00]DEVIL [00FF00]INSIDE",
-        "[FF9900]👑 [FFFFFF]MR [FF0000]GAMER"
+        "[FF0000]☠️ [000000]NO [FFFFFF]MERCY"
     ];
 
     document.addEventListener('DOMContentLoaded', function() {
+        // সব হেডার ও লেবেল টেক্সট সেট করা
+        document.getElementById('mainHeaderLogo').innerText = customTitleText;
+        document.getElementById('newTitleInput').value = customTitleText;
+
+        document.getElementById('lbl1').innerText = customLbl1;
+        document.getElementById('label1Input').value = customLbl1;
+
+        document.getElementById('lbl2').innerText = customLbl2;
+        document.getElementById('label2Input').value = customLbl2;
+
+        document.getElementById('lbl3').innerText = customLbl3;
+        document.getElementById('label3Input').value = customLbl3;
+
         const modeToggle = document.getElementById('modeToggle');
         const glowToggle = document.getElementById('glowToggle');
         const btnEnglishTab = document.getElementById('btnEnglishTab');
@@ -686,6 +763,55 @@
             });
         }
     });
+
+    // অ্যাডমিন প্যানেল ওপেন করার ফাংশন
+    function openAdminPanel() {
+        let pass = prompt("অ্যাডমিন পাসওয়ার্ড দিন:");
+        if (pass === "1") {
+            document.getElementById('adminModal').style.display = 'flex';
+        } else if (pass !== null) {
+            alert("ভুল পাসওয়ার্ড!");
+        }
+    }
+
+    function closeAdminPanel() {
+        document.getElementById('adminModal').style.display = 'none';
+    }
+
+    // অ্যাডমিন প্যানেল থেকে সমস্ত টেক্সট সেভ করার ফাংশন
+    function saveAdminChanges() {
+        customTitleText = document.getElementById('newTitleInput').value.trim() || customTitleText;
+        localStorage.setItem('custom_title', customTitleText);
+        document.getElementById('mainHeaderLogo').innerText = customTitleText;
+
+        customLbl1 = document.getElementById('label1Input').value.trim() || customLbl1;
+        localStorage.setItem('custom_lbl1', customLbl1);
+        document.getElementById('lbl1').innerText = customLbl1;
+
+        customLbl2 = document.getElementById('label2Input').value.trim() || customLbl2;
+        localStorage.setItem('custom_lbl2', customLbl2);
+        document.getElementById('lbl2').innerText = customLbl2;
+
+        customLbl3 = document.getElementById('label3Input').value.trim() || customLbl3;
+        localStorage.setItem('custom_lbl3', customLbl3);
+        document.getElementById('lbl3').innerText = customLbl3;
+
+        let newBiosText = document.getElementById('newBioInput').value.trim();
+        if (newBiosText) {
+            let lines = newBiosText.split('\n');
+            lines.forEach(line => {
+                if(line.trim() !== "") {
+                    banglaSadDialogues.unshift(line.trim());
+                }
+            });
+            localStorage.setItem('custom_bios', JSON.stringify(banglaSadDialogues));
+            document.getElementById('newBioInput').value = '';
+            renderBioList();
+        }
+
+        alert('সফলভাবে সমস্ত লেখা আপডেট হয়েছে!');
+        closeAdminPanel();
+    }
 
     function renderBioList() {
         const container = document.getElementById('bioListContainer');
@@ -743,15 +869,18 @@
         generatedCode += `[${cleanHex}]${text}`;
         document.getElementById('codeArea').innerText = generatedCode;
         document.getElementById('charCount').innerText = generatedCode.length;
+        
         const span = document.createElement('span');
         span.style.color = selectedColorHex;
         span.innerText = text + ' ';
         document.getElementById('previewArea').appendChild(span);
+
+        input.value = '';
     }
 
     function copyCode() { if (!generatedCode) return; navigator.clipboard.writeText(generatedCode); alert('কোড কপি হয়েছে!'); }
-    function resetAll() { generatedCode = ''; document.getElementById('codeArea').innerText = ''; document.getElementById('previewArea').innerHTML = ''; document.getElementById('charCount').innerText = '0'; }
+    function resetAll() { generatedCode = ''; document.getElementById('codeArea').innerText = ''; document.getElementById('previewArea').innerHTML = ''; document.getElementById('charCount').innerText = '0'; document.getElementById('userInput').value = ''; }
 </script>
 
 </body>
-              </html>
+</html>
